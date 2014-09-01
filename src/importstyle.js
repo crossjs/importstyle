@@ -4,20 +4,25 @@ define(function(require, exports, module) {
 
   /**
    * The Sea.js plugin for embedding style text in JavaScript code
-   */
-
-  /**
-   * Copy from
-   * git://github.com/popomore/import-style.git
+   * Copy from git://github.com/popomore/import-style.git
+   * @class importStyle
+   * @module importStyle
+   * @param  {string} cssText 样式内容
+   * @param  {string} [id]    样式 ID，用于避免重复加载
    */
 
   var RE_NON_WORD = /\W/g;
-  var doc = document;
-  var head = document.getElementsByTagName('head')[0] ||
+
+  var doc = document,
+    head = document.head ||
+    document.getElementsByTagName('head')[0] ||
     document.documentElement;
+
   var styleNode;
 
-  module.exports = function importStyle(cssText, id) {
+  module.exports = function(cssText, id) {
+    var element;
+
     if (id) {
       // Convert id to valid string
       id = id.replace(RE_NON_WORD, '-');
@@ -27,8 +32,6 @@ define(function(require, exports, module) {
         return;
       }
     }
-
-    var element;
 
     // Don't share styleNode when id is spectied
     if (!styleNode || id) {
